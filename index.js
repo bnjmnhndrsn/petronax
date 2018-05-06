@@ -1,13 +1,7 @@
 const express = require('express')
-const app = express()
-const db = require('./models')
+const path = require('path')
+const PORT = process.env.PORT || 5000
 
-app.get('/', (req, res) => {
-    db.Photo.findOrCreate({where: {page_url: 'www.example.com'}}).spread((photo) => {
-        res.send('Photo ' + photo.page_url);
-    });
-});
-
-db.sequelize.sync().then(function() {
-    app.listen(3000, () => console.log('Example app listening on port 3000!'))
-});
+express()
+  .use('/', express.static(path.join(__dirname, 'public')))
+  .listen(PORT, () => console.log(`Listening on ${ PORT }`))
