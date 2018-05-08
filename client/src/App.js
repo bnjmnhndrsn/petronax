@@ -82,7 +82,7 @@ class App extends Component {
             <div className="app">
                 <div className="header">
                     <div>
-                    From this day in <input value={this.state.year} onChange={this.onChange} onBlur={this.onBlur} />
+                    On today, { moment().format('MMM Do') }, in <input value={this.state.year} onChange={this.onChange} onBlur={this.onBlur} />
                     </div>
                     <div className="warning">
                     {
