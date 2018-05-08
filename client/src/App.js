@@ -65,9 +65,9 @@ class App extends Component {
                     <div className="title">
                         {this.state.photo.title}
                     </div>
-                    <div>
+                    <div className="img-container">
                         <a href={this.state.photo.description_url} target="_blank">
-                            <img alt={this.state.photo.title} src={this.state.photo.image_url}/>
+                            <img alt={this.state.photo.title} src={this.state.photo.scaled_url}/>
                         </a>
                     </div>
                 </div>
