@@ -4,8 +4,8 @@ var lodash = require('lodash');
 var BASE_URL = 'https://commons.wikimedia.org/w/api.php';
 
 var WikipediaAPI = {
-    searchByDate: function(date, offset=0) {
-        var gsrsearch = `insource:/[dD]ate=\s{0,1}${date}/`;
+    _makeRequest: function(date, limit, offset){
+        var gsrsearch = `filetype:bitmap insource:/[dD]ate=\s{0,1}${date}/`;
 
         var params = {
             format: 'json',
@@ -14,7 +14,7 @@ var WikipediaAPI = {
             gsrnamespace: 6, // files
             gsrsearch: gsrsearch,
             gsrwhat: 'text',
-            gsrlimit: 25,
+            gsrlimit: limit,
             prop: 'imageinfo',
             iiprop: 'url',
             gsroffset: offset,
@@ -22,6 +22,9 @@ var WikipediaAPI = {
         };
 
         return axios.get(BASE_URL, { params: params })
+    },
+    searchByDate: function(date, limit=25, offset=0) {
+        return WikipediaAPI._makeRequest(date, limit, offset)
         .then(response => {
             if (!response.data.query) {
                 return [];

@@ -5,7 +5,8 @@ var WikipediaAPI = require('../utils/wikipedia');
 router.get('/', function(req, res) {
     if (req.query.date) {
         var offset = req.query.offset || 0;
-        WikipediaAPI.searchByDate(req.query.date, offset).then(data => {
+        var limit = req.query.limit || 3;
+        WikipediaAPI.searchByDate(req.query.date, limit, offset).then(data => {
             res.status(200).json(data);
         });
     } else {
