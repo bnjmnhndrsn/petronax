@@ -3,30 +3,37 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 import { asyncActions as photoAsyncActions } from './reducers/photos';
+import { actions as uiActions } from './reducers/ui';
 
 import './App.css';
 
 const mapStateToProps = (state) => ({
+    year: state.ui.year,
     photos: state.photos
 });
 
 const mapDispatchToProps = {
-    fetchPhotos: photoAsyncActions.fetchPhotos
+    fetchPhotos: photoAsyncActions.fetchPhotos,
+    setYear: uiActions.setYear,
+    toggleError: uiActions.toggleError
 };
 
 class App extends Component {
     constructor(){
         super();
-        this.state = {
-            year: (Math.floor((Math.random() * 100)) + 1900).toString()
-        };
         
         this.onChange = this.onChange.bind(this);
         this.onBlur = this.onBlur.bind(this);
     }
     
     componentDidMount(){
-        this.fetchPhoto();
+        this.props.setYear((Math.floor((Math.random() * 100)) + 1900).toString());
+    }
+    
+    componentDidUpdate(prevProps){
+        if (prevProps.year !== this.props.year && !this.props.showError) {
+            this.fetchPhoto();
+        }
     }
     
     fetchPhoto(){
@@ -39,21 +46,22 @@ class App extends Component {
     }
     
     _getDateString(){
-        return moment().year(this.state.year).format('YYYY-MM-DD');
+        return this.props.year ? moment().year(this.props.year).format('YYYY-MM-DD') : '';
     }
     
     _hasValidYear(){
-        const parsed = Number(this.state.year);
+        const parsed = Number(this.props.year);
         return parsed > 1800 && parsed <= moment().year();
     }
     
     onChange(ev){
-        this.setState({year: ev.target.value, showError: false}, () => this.fetchPhoto());
+        this.props.toggleError(false);
+        this.props.setYear(ev.target.value);
     }
     
     onBlur(){
         if (!this._hasValidYear()) {
-            this.setState({showError: true});
+            this.props.toggleError(true);
         }    
     }
     
@@ -84,11 +92,11 @@ class App extends Component {
             <div className="app">
                 <div className="header">
                     <div>
-                    On today, { moment().format('MMM Do') }, in <input value={this.state.year} onChange={this.onChange} onBlur={this.onBlur} />
+                    On today, { moment().format('MMM Do') }, in <input value={this.props.year} onChange={this.onChange} onBlur={this.onBlur} />
                     </div>
                     <div className="warning">
                     {
-                        (!this._hasValidYear() && this.state.showError) ?
+                        (!this._hasValidYear() && this.props.showError) ?
                         'Please enter a year between 1800 and now' :
                         ' '
                     }
