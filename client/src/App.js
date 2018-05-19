@@ -1,15 +1,23 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
 import moment from 'moment';
 
+import { asyncActions as photoAsyncActions } from './reducers/photos';
+
 import './App.css';
+
+const mapStateToProps = (state) => ({
+    photos: state.photos
+});
+
+const mapDispatchToProps = {
+    fetchPhotos: photoAsyncActions.fetchPhotos
+};
 
 class App extends Component {
     constructor(){
         super();
         this.state = {
-            photo: null,
-            isFetching: false,
             year: (Math.floor((Math.random() * 100)) + 1900).toString()
         };
         
@@ -26,21 +34,12 @@ class App extends Component {
             return;
         }
         
-        this.setState({
-            isFetching: true
-        });
-        
-        const dateString = moment().year(this.state.year).format('YYYY-MM-DD');
-        axios.get(`/api/wikipedia?date=${dateString}`)
-        .then(({data}) => {
-            let newPhoto = null;
-            data = data.filter(datum => /(jpg|jpeg|png)$/.test(datum.image_url));
-            
-            if (data.length) {
-                newPhoto = data[Math.floor(Math.random() * data.length)]
-            }
-            this.setState({photo: newPhoto, isFetching: false});
-        });
+        const dateString = this._getDateString();
+        this.props.fetchPhotos(dateString);
+    }
+    
+    _getDateString(){
+        return moment().year(this.state.year).format('YYYY-MM-DD');
     }
     
     _hasValidYear(){
@@ -59,15 +58,18 @@ class App extends Component {
     }
     
     _renderPhoto(){
-        if (this.state.photo) {
+        const photos = this.props.photos[this._getDateString()];
+        if (photos.length) {
+            const photo = photos[0];
+            
             return (
                 <div className="photo">
                     <div className="title">
-                        {this.state.photo.title}
+                        {photo.title}
                     </div>
                     <div className="img-container">
-                        <a href={this.state.photo.description_url} target="_blank">
-                            <img alt={this.state.photo.title} src={this.state.photo.scaled_url}/>
+                        <a href={photo.description_url} target="_blank">
+                            <img alt={photo.title} src={photo.scaled_url}/>
                         </a>
                     </div>
                 </div>
@@ -94,13 +96,13 @@ class App extends Component {
                 </div>
 
                 {
-                    this.state.isFetching ?
-                    <div>Loading Photo...</div> :
-                    this._renderPhoto()
+                    this.props.photos[this._getDateString()] ?
+                    this._renderPhoto() :
+                    <div>Loading Photo...</div>
                 }
             </div>
         );
     }
 }
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);
