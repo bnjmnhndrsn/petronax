@@ -1,0 +1,10 @@
+.photo .title {
+    font-style: italic;
+    margin-bottom: 5px;
+}
+
+img {
+    width: 100%;
+    max-width: 600px;
+    padding: 0 10px;
+}

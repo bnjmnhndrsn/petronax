@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { actions as uiActions } from './reducers/ui';
+import { actions as uiActions } from '../reducers/ui';
 
-import MonthPicker from './components/MonthPicker';
-import YearPicker from './components/YearPicker';
-import Photo from './components/Photo';
+import MonthPicker from './MonthPicker';
+import YearPicker from './YearPicker';
+import Photo from './Photo';
 
-import './App.css';
+import './styles/Container.css';
 
 const mapStateToProps = (state) => ({
     date: state.ui.date,

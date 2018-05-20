@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 
 import { asyncActions as photoAsyncActions } from '../reducers/photos';
 
+import './styles/Photo.css';
+
 const mapStateToProps = (state) => ({
     date: state.ui.date,
     photos: state.photos[state.ui.date]
