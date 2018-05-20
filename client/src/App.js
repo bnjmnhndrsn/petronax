@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import 'react-dates/initialize';
 
 import { actions as uiActions } from './reducers/ui';
 
-import DatePicker from './components/DatePicker';
+import MonthPicker from './components/MonthPicker';
+import YearPicker from './components/YearPicker';
 import Photo from './components/Photo';
 
 import './App.css';
-import 'react-dates/lib/css/_datepicker.css';
 
 const mapStateToProps = (state) => ({
     date: state.ui.date,
@@ -31,9 +30,8 @@ class App extends Component {
     render() {
         return (
             <div className="app">
-                <div className="header">
-                    <DatePicker date={this.props.date} setDate={this.props.setDate} />
-                </div>
+                <MonthPicker date={this.props.date} setDate={this.props.setDate} />
+                <YearPicker date={this.props.date} setDate={this.props.setDate} />
                 <Photo />
             </div>
         );
