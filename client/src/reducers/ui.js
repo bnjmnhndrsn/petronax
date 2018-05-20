@@ -1,33 +1,22 @@
-import API from '../api';
-
-const SET_YEAR = 'SET_YEAR'
-const TOGGLE_ERROR = 'TOGGLE_ERROR'
+const SET_DATE = 'SET_DATE'
 
 const initialState = {
-    year: '',
-    showError: false
+    date: null
 };
 
-export default function photosReducer (state = {}, action) {
+export default function uiReducer (state = initialState, action) {
     switch (action.type) {
-        case SET_YEAR:
-            return Object.assign({}, {year: action.year })
-        case TOGGLE_ERROR:
-            return Object.assign({}, {showError: action.toggle })
+        case SET_DATE:
+            return Object.assign({}, {date: action.date })
         default:
             return state
     }
 }
 
-function setYear(year){
-    return { type: SET_YEAR, year };
-}
-
-function toggleError(toggle){
-    return { type: TOGGLE_ERROR, toggle };
+function setDate(date){
+    return { type: SET_DATE, date };
 }
 
 export const actions = {
-    setYear,
-    toggleError
+    setDate
 };
