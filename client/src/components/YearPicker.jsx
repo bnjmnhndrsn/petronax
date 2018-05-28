@@ -38,7 +38,7 @@ export default class YearPicker extends Component {
 
     render(){
         return (
-            <div>
+            <div className="day-picker">
                 <input onChange={this.onChange} value={this.state.year} />
             </div>
         )

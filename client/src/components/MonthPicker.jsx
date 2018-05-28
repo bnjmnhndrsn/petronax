@@ -16,7 +16,7 @@ export default function MonthPicker({setDate, date}){
     const value = date ? moment(date, DATE_FORMAT).month() : '';
 
     return (
-        <div>
+        <div className="month-picker">
             <select onChange={onChange} value={value}>
                 {
                     OPTIONS.map((month, i) => <option key={i} value={i}>{ month }</option> )
