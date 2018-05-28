@@ -5,7 +5,7 @@ import moment from 'moment';
 import { actions as uiActions } from '../reducers/ui';
 
 import DatePicker from './DatePicker';
-import Photo from './Photo';
+import Photos from './Photos';
 
 import './styles/Container.css';
 
@@ -30,7 +30,7 @@ class App extends Component {
         return (
             <div className="app">
                 <DatePicker date={this.props.date} setDate={this.props.setDate} />
-                <Photo />
+                <Photos />
             </div>
         );
     }

@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import { asyncActions as photoAsyncActions } from '../reducers/photos';
+import { PHOTO_WIDTH } from './constants';
 
 import './styles/Photo.css';
 
@@ -39,15 +40,13 @@ export class Photo extends PureComponent {
         const photo = this.props.photos[0];
 
         return (
-            <div className="photo">
+            <div className="photo" style={{width: `${PHOTO_WIDTH}px`}}>
                 <div className="title">
                     {photo.title}
                 </div>
-                <div className="img-container">
-                    <a href={photo.description_url} target="_blank">
-                        <img alt={photo.title} src={photo.scaled_url}/>
-                    </a>
-                </div>
+                <a href={photo.description_url} target="_blank">
+                    <div className="img-container" style={{backgroundImage: `url(${photo.scaled_url})`}} />
+                </a>
             </div>
         )
     }

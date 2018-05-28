@@ -1,0 +1,10 @@
+.photos-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.photos-container {
+    height: 800px;
+    display: flex;
+    flex-direction: 'row';
+}

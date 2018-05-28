@@ -1,10 +1,23 @@
+.photo {
+    display: flex;
+    flex-direction: column;
+    height: 800px;
+}
+
 .photo .title {
     font-style: italic;
     margin-bottom: 5px;
 }
 
-img {
+.photo a {
     width: 100%;
-    max-width: 600px;
-    padding: 0 10px;
+    flex: 1;
+}
+
+
+.img-container {
+    height: 100%;
+    width: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
 }
