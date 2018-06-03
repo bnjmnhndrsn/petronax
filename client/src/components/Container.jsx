@@ -30,7 +30,7 @@ class App extends Component {
         return (
             <div className="app">
                 <DatePicker date={this.props.date} setDate={this.props.setDate} />
-                <Photos />
+                <Photos date={this.props.date} setDate={this.props.setDate} />
             </div>
         );
     }
