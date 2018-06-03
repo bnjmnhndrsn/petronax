@@ -29,11 +29,11 @@ export class Photo extends PureComponent {
 
     render(){
         if (!this.props.photos) {
-            return <div>Loading Photo...</div>;
+            return <div style={{width: `${PHOTO_WIDTH}px`}}>Loading Photo...</div>;
         }
 
         if (!this.props.photos.length) {
-            return <div>No Photo</div>;
+            return <div style={{width: `${PHOTO_WIDTH}px`}}>No Photo</div>;
         }
 
         const photo = this.props.photos[0];
