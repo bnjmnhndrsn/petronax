@@ -6,9 +6,8 @@ import { PHOTO_WIDTH } from './constants';
 
 import './styles/Photo.css';
 
-const mapStateToProps = (state) => ({
-    date: state.ui.date,
-    photos: state.photos[state.ui.date]
+const mapStateToProps = (state, ownProps) => ({
+    photos: state.photos[ownProps.date]
 });
 
 const mapDispatchToProps = {

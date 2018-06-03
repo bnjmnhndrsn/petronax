@@ -5,7 +5,7 @@ const ADD_PHOTOS = 'ADD_PHOTOS'
 export default function photosReducer (state = {}, action) {
     switch (action.type) {
         case ADD_PHOTOS:
-            return Object.assign({}, {[action.date]: action.photos })
+            return Object.assign({}, state, {[action.date]: action.photos })
         default:
             return state
     }
