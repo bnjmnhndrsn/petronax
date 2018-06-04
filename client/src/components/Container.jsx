@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import windowSize from 'react-window-size';
 
 import { actions as uiActions } from '../reducers/ui';
 
@@ -30,10 +31,10 @@ class App extends Component {
         return (
             <div className="app">
                 <DatePicker date={this.props.date} setDate={this.props.setDate} />
-                <Photos date={this.props.date} setDate={this.props.setDate} />
+                <Photos date={this.props.date} setDate={this.props.setDate} windowWidth={this.props.windowWidth} />
             </div>
         );
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default windowSize(connect(mapStateToProps, mapDispatchToProps)(App));
