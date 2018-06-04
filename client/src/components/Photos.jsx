@@ -53,7 +53,19 @@ export default class Photos extends Component {
     bindEl(el){
         if (el) {
             if (!this.el) {
-                el.scrollLeft = this.props.photoWidth * BUFFER_SIZE;
+                // TODO: Simplify this logic
+                let offset = 0;
+                const photosPerViewport = this.props.windowWidth / this.props.photoWidth;
+                const photosCount = Math.ceil(photosPerViewport);
+                if (photosCount === 1) {
+                    offset = 0;
+                } else if (photosCount % 2 === 0) {
+                    offset = 1 - ((photosPerViewport % 2 - 1) / 2);
+                } else {
+                    offset = .5 * (1 - Math.abs( ((photosPerViewport - 1) % 2) - 1 ));
+                }
+
+                el.scrollLeft = (this.props.photoWidth * BUFFER_SIZE) + (offset * this.props.photoWidth);
             }
 
             this.el = el;
@@ -65,10 +77,11 @@ export default class Photos extends Component {
             return null;
         }
 
-        const totalDates = Math.ceil((this.props.windowWidth + (2 * BUFFER_SIZE * this.props.photoWidth)) / this.props.photoWidth);
+        const totalDates = (2 * BUFFER_SIZE) +  Math.ceil(this.props.windowWidth / this.props.photoWidth );
+        const offset = Math.floor(totalDates / 2);
 
         const dates = times(totalDates, (i) => {
-            return moment(this.props.date, DATE_FORMAT).add(i, 'day').format(DATE_FORMAT);
+            return moment(this.props.date, DATE_FORMAT).subtract(offset, 'day').add(i, 'day').format(DATE_FORMAT);
         });
 
         return (
