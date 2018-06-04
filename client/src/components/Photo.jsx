@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import { asyncActions as photoAsyncActions } from '../reducers/photos';
-import { PHOTO_WIDTH } from './constants';
+import { PHOTO_WIDTH, DATE_FORMAT } from './constants';
 
 import './styles/Photo.css';
 
@@ -39,7 +40,10 @@ export class Photo extends PureComponent {
         const photo = this.props.photos[0];
 
         return (
-            <div className="photo" style={{width: `${PHOTO_WIDTH}px`}}>
+            <div className="photo">
+                <div className="date">
+                    { moment(this.props.date, DATE_FORMAT).format('MMM Do') }
+                </div>
                 <div className="title">
                     <a href={photo.description_url} target="_blank">
                         {photo.title}
