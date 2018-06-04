@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { times } from 'lodash';
+import 'dragscroll';
 
 import Photo from './Photo'
 import { PHOTO_WIDTH, DATE_FORMAT } from './constants';
@@ -60,7 +61,7 @@ export default class Photos extends Component {
 
         return (
             <div>
-                <div className="photos-wrapper" style={{width: `${PHOTO_WIDTH * VIEWPORT_SIZE}px`}} ref={(el) => {
+                <div className="dragscroll photos-wrapper" style={{width: `${PHOTO_WIDTH * VIEWPORT_SIZE}px`}} ref={(el) => {
                         if (el) {
                             if (!this.el) {
                                 el.scrollLeft = PHOTO_WIDTH * BUFFER_SIZE;

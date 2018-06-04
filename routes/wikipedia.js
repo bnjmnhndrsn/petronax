@@ -1,7 +1,7 @@
 var express = require('express');
 var router  = express.Router();
-//var WikipediaAPI = require('../utils/wikipedia');
-var WikipediaAPI = require('../utils/mock-wikipedia');
+var WikipediaAPI = require('../utils/wikipedia');
+// var WikipediaAPI = require('../utils/mock-wikipedia');
 
 router.get('/', function(req, res) {
     if (req.query.date) {

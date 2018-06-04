@@ -41,11 +41,11 @@ export class Photo extends PureComponent {
         return (
             <div className="photo" style={{width: `${PHOTO_WIDTH}px`}}>
                 <div className="title">
-                    {photo.title}
+                    <a href={photo.description_url} target="_blank">
+                        {photo.title}
+                    </a>
                 </div>
-                <a href={photo.description_url} target="_blank">
-                    <div className="img-container" style={{backgroundImage: `url(${photo.scaled_url})`}} />
-                </a>
+                <div className="img-container" style={{backgroundImage: `url(${photo.scaled_url})`}} />
             </div>
         )
     }
