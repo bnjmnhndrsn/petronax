@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 import { asyncActions as photoAsyncActions } from '../reducers/photos';
-import { PHOTO_WIDTH, DATE_FORMAT } from './constants';
+import { DATE_FORMAT } from './constants';
 
 import './styles/Photo.css';
 
@@ -30,17 +30,17 @@ export class Photo extends PureComponent {
 
     render(){
         if (!this.props.photos) {
-            return <div style={{width: `${PHOTO_WIDTH}px`}}>Loading Photo...</div>;
+            return <div style={{minWidth: `${this.props.photoWidth}px`}}>Loading Photo...</div>;
         }
 
         if (!this.props.photos.length) {
-            return <div style={{width: `${PHOTO_WIDTH}px`}}>No Photo</div>;
+            return <div style={{minWidth: `${this.props.photoWidth}px`}}>No Photo</div>;
         }
 
         const photo = this.props.photos[0];
 
         return (
-            <div className="photo">
+            <div className="photo" style={{minWidth: `${this.props.photoWidth - 40}px`}}>
                 <div className="date">
                     { moment(this.props.date, DATE_FORMAT).format('MMM Do') }
                 </div>

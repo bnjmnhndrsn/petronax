@@ -28,10 +28,12 @@ class App extends Component {
     }
 
     render() {
+        const photoWidth = Math.min(this.props.windowWidth, 500);
+
         return (
             <div className="app">
                 <DatePicker date={this.props.date} setDate={this.props.setDate} />
-                <Photos date={this.props.date} setDate={this.props.setDate} windowWidth={this.props.windowWidth} />
+                <Photos date={this.props.date} setDate={this.props.setDate} windowWidth={this.props.windowWidth} photoWidth={photoWidth} />
             </div>
         );
     }
