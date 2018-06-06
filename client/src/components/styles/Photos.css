@@ -8,7 +8,6 @@
 }
 
 .photos-container {
+    position: relative;
     height: 800px;
-    display: flex;
-    flex-direction: 'row';
 }

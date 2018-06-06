@@ -23,7 +23,8 @@ const DATE_FORMAT = 'YYYY-MM-DD';
 class App extends Component {
     componentDidMount(){
         this.props.setDate(
-            moment().year((Math.floor((Math.random() * 100)) + 1900).toString()).format(DATE_FORMAT)
+            '2018-06-02'
+            //moment().year((Math.floor((Math.random() * 100)) + 1900).toString()).format(DATE_FORMAT)
         );
     }
 

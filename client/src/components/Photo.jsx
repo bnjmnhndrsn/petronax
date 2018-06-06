@@ -33,7 +33,7 @@ export class Photo extends PureComponent {
         const photo = this.props.photos && this.props.photos[0];
 
         return (
-            <div className="photo" style={{minWidth: `${this.props.photoWidth - 40}px`}}>
+            <div className="photo" style={{width: `${this.props.photoWidth - 40}px`}}>
                 <div className="date">
                     { moment(this.props.date, DATE_FORMAT).format('MMM Do, YYYY') }
                 </div>

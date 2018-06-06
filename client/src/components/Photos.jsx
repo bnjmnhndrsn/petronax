@@ -4,11 +4,11 @@ import { times } from 'lodash';
 import 'dragscroll';
 
 import Photo from './Photo'
-import { DATE_FORMAT } from './constants';
+import { DATE_FORMAT, DATE_MIN } from './constants';
 
 import './styles/Photos.css'
 
-const BUFFER_SIZE = 3;
+const BUFFER_SIZE = 2;
 
 export default class Photos extends Component {
     constructor(){
@@ -33,12 +33,12 @@ export default class Photos extends Component {
     // }
 
     updatePhotos(){
-        if (this.lastKnownScrollPosition <= (this.props.photoWidth * BUFFER_SIZE)) {
-            this.props.setDate(moment(this.props.date, DATE_FORMAT).subtract(1, 'day').format(DATE_FORMAT));
-        } else if (this.lastKnownScrollPosition >= (this.props.photoWidth * BUFFER_SIZE + this.props.windowWidth)) {
-            this.props.setDate(moment(this.props.date, DATE_FORMAT).add(1, 'day').format(DATE_FORMAT));
-        }
-        this.ticking = false;
+        // if (this.lastKnownScrollPosition <= (this.props.photoWidth * BUFFER_SIZE)) {
+        //     this.props.setDate(moment(this.props.date, DATE_FORMAT).subtract(1, 'day').format(DATE_FORMAT));
+        // } else if (this.lastKnownScrollPosition >= (this.props.photoWidth * BUFFER_SIZE + this.props.windowWidth)) {
+        //     this.props.setDate(moment(this.props.date, DATE_FORMAT).add(1, 'day').format(DATE_FORMAT));
+        // }
+        // this.ticking = false;
     }
 
     onScroll({target}){
@@ -77,18 +77,29 @@ export default class Photos extends Component {
             return null;
         }
 
-        const totalDates = (2 * BUFFER_SIZE) +  Math.ceil(this.props.windowWidth / this.props.photoWidth );
-        const offset = Math.floor(totalDates / 2);
+        const totalPossibleDates = moment().subtract(1, 'days').diff(moment(DATE_MIN, DATE_FORMAT), 'days');
 
-        const dates = times(totalDates, (i) => {
-            return moment(this.props.date, DATE_FORMAT).subtract(offset, 'day').add(i, 'day').format(DATE_FORMAT);
+        const renderedDates = (2 * BUFFER_SIZE) +  Math.ceil(this.props.windowWidth / this.props.photoWidth );
+        const offset = Math.floor(renderedDates / 2);
+
+        const dates = times(renderedDates, (i) => {
+            const date = moment(this.props.date, DATE_FORMAT).subtract(offset, 'day').add(i, 'day')
+            return {
+                index: moment().diff(date, 'days'),
+                date: date.format(DATE_FORMAT)
+            }
         });
+        console.log(dates);
 
         return (
             <div className="photos-wrapper" style={{width: `${this.props.windowWidth}px`}} ref={this.bindEl} onScroll={this.onScroll}>
-                <div className="photos-container" style={{width: `${this.props.windowWidth + (this.props.photoWidth * (2 * BUFFER_SIZE))}px` }}>
+                <div className="photos-container" style={{width: `${totalPossibleDates * this.props.photoWidth}px` }}>
                     {
-                        dates.map(date => <Photo key={date} date={date} photoWidth={this.props.photoWidth} />)
+                        dates.map(obj => (
+                            <div key={obj.date} style={{position: 'absolute', top: '0', bottom: '0', left: `${obj.index * this.props.photoWidth}px`, width: this.props.photoWidth}}>
+                                <Photo date={obj.date} photoWidth={this.props.photoWidth} />
+                            </div>
+                        ))
                     }
                 </div>
             </div>
