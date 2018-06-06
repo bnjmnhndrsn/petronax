@@ -18,19 +18,19 @@ export default class Photos extends Component {
         this.bindEl = this.bindEl.bind(this)
     }
 
-    componentDidUpdate(prevProps){
-        if (prevProps.date !== this.props.date) {
-            this.ticking = false;
-            const val = moment(this.props.date, DATE_FORMAT).diff(moment(prevProps.date, DATE_FORMAT), 'days');
-            if (val === 1) {
-                const diff = this.el.scrollLeft - (this.props.photoWidth * BUFFER_SIZE + this.props.windowWidth);
-                this.el.scrollLeft = (this.props.photoWidth * (BUFFER_SIZE - 1)) + diff + this.props.windowWidth;
-            } else if (val === -1) {
-                const diff = this.el.scrollLeft - (this.props.photoWidth * BUFFER_SIZE);
-                this.el.scrollLeft = (this.props.photoWidth * (BUFFER_SIZE + 1)) - diff;
-            }
-        }
-    }
+    // componentDidUpdate(prevProps){
+    //     if (prevProps.date !== this.props.date) {
+    //         this.ticking = false;
+    //         const val = moment(this.props.date, DATE_FORMAT).diff(moment(prevProps.date, DATE_FORMAT), 'days');
+    //         if (val === 1) {
+    //             const diff = this.el.scrollLeft - (this.props.photoWidth * BUFFER_SIZE + this.props.windowWidth);
+    //             this.el.scrollLeft = (this.props.photoWidth * (BUFFER_SIZE - 1)) + diff + this.props.windowWidth;
+    //         } else if (val === -1) {
+    //             const diff = this.el.scrollLeft - (this.props.photoWidth * BUFFER_SIZE);
+    //             this.el.scrollLeft = (this.props.photoWidth * (BUFFER_SIZE + 1)) - diff;
+    //         }
+    //     }
+    // }
 
     updatePhotos(){
         if (this.lastKnownScrollPosition <= (this.props.photoWidth * BUFFER_SIZE)) {
@@ -52,21 +52,21 @@ export default class Photos extends Component {
 
     bindEl(el){
         if (el) {
-            if (!this.el) {
-                // TODO: Simplify this logic
-                let offset = 0;
-                const photosPerViewport = this.props.windowWidth / this.props.photoWidth;
-                const photosCount = Math.ceil(photosPerViewport);
-                if (photosCount === 1) {
-                    offset = 0;
-                } else if (photosCount % 2 === 0) {
-                    offset = 1 - ((photosPerViewport % 2 - 1) / 2);
-                } else {
-                    offset = .5 * (1 - Math.abs( ((photosPerViewport - 1) % 2) - 1 ));
-                }
-
-                el.scrollLeft = (this.props.photoWidth * BUFFER_SIZE) + (offset * this.props.photoWidth);
-            }
+            // if (!this.el) {
+            //     // TODO: Simplify this logic
+            //     let offset = 0;
+            //     const photosPerViewport = this.props.windowWidth / this.props.photoWidth;
+            //     const photosCount = Math.ceil(photosPerViewport);
+            //     if (photosCount === 1) {
+            //         offset = 0;
+            //     } else if (photosCount % 2 === 0) {
+            //         offset = 1 - ((photosPerViewport % 2 - 1) / 2);
+            //     } else {
+            //         offset = .5 * (1 - Math.abs( ((photosPerViewport - 1) % 2) - 1 ));
+            //     }
+            //
+            //     el.scrollLeft = (this.props.photoWidth * BUFFER_SIZE) + (offset * this.props.photoWidth);
+            // }
 
             this.el = el;
         }
@@ -85,13 +85,11 @@ export default class Photos extends Component {
         });
 
         return (
-            <div>
-                <div className="dragscroll photos-wrapper" style={{width: `${this.props.windowWidth}px`}} ref={this.bindEl} onScroll={this.onScroll}>
-                    <div className="photos-container" style={{width: `${this.props.windowWidth + (this.props.photoWidth * (2 * BUFFER_SIZE))}px` }}>
-                        {
-                            dates.map(date => <Photo key={date} date={date} photoWidth={this.props.photoWidth} />)
-                        }
-                    </div>
+            <div className="photos-wrapper" style={{width: `${this.props.windowWidth}px`}} ref={this.bindEl} onScroll={this.onScroll}>
+                <div className="photos-container" style={{width: `${this.props.windowWidth + (this.props.photoWidth * (2 * BUFFER_SIZE))}px` }}>
+                    {
+                        dates.map(date => <Photo key={date} date={date} photoWidth={this.props.photoWidth} />)
+                    }
                 </div>
             </div>
         )
