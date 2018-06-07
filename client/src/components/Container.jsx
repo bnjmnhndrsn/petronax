@@ -29,6 +29,9 @@ class App extends Component {
 
     render() {
         const photoWidth = Math.min(this.props.windowWidth, 500);
+        if (!this.props.date) {
+            return null;
+        }
 
         return (
             <div className="app">
