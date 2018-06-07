@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 import { asyncActions as photoAsyncActions } from '../reducers/photos';
-import { DATE_FORMAT } from './constants';
+import { DATE_FORMAT } from '../constants';
 
 import './styles/Photo.css';
 
