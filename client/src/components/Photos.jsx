@@ -33,7 +33,7 @@ export default class Photos extends Component {
 
     getDateFromScrollPos(){
         const containerSize = this.props.windowWidth;
-        const totalPossibleDates = moment().subtract(1, 'days').diff(moment(DATE_MIN, DATE_FORMAT), 'days');
+        const totalPossibleDates = moment().diff(moment(DATE_MIN, DATE_FORMAT), 'days');
         const totalSize = totalPossibleDates * this.props.photoWidth;
         const safeTotalSize = Math.min(getMaxElementSize(), totalSize);
         const offsetPercentage = safeTotalSize <= containerSize ? 0 : this.state.scrollPos / (safeTotalSize - containerSize);
@@ -54,11 +54,10 @@ export default class Photos extends Component {
         const index = moment(this.props.date, DATE_FORMAT).diff(moment(DATE_MIN, DATE_FORMAT), 'days');
         const initialScrollPos = this.props.photoWidth * index;
         const containerSize = this.props.windowWidth;
-        const totalPossibleDates = moment().subtract(1, 'days').diff(moment(DATE_MIN, DATE_FORMAT), 'days');
+        const totalPossibleDates = moment().diff(moment(DATE_MIN, DATE_FORMAT), 'days');
         const totalSize = totalPossibleDates * this.props.photoWidth;
         const safeTotalSize = Math.min(getMaxElementSize(), totalPossibleDates * this.props.photoWidth);
         const offsetPercentage = totalSize <= containerSize ? 0 : initialScrollPos / (totalSize - containerSize);
-        console.log(offsetPercentage);
         return Math.round(offsetPercentage * safeTotalSize);
     }
 
@@ -74,11 +73,12 @@ export default class Photos extends Component {
 
     render(){
         const currentDate = this.getDateFromScrollPos();
+        const daysLeft = moment().diff(moment(currentDate, DATE_FORMAT), 'days');
         const leftBuffer = Math.min(BUFFER_SIZE, moment(currentDate).diff(moment(DATE_MIN, DATE_FORMAT), 'days'));
-        const rightBuffer = Math.min(BUFFER_SIZE, moment().subtract(1, 'days').diff(moment(currentDate, DATE_FORMAT), 'days'));
-        const visibleDates = Math.ceil(this.props.windowWidth / this.props.photoWidth );
+        const rightBuffer = Math.min(BUFFER_SIZE, daysLeft);
+        const visibleDates = Math.min(Math.ceil(this.props.windowWidth / this.props.photoWidth ), daysLeft);
         const renderedDates = leftBuffer + rightBuffer + visibleDates;
-        const totalPossibleDates = moment().subtract(1, 'days').diff(moment(DATE_MIN, DATE_FORMAT), 'days');
+        const totalPossibleDates = moment().diff(moment(DATE_MIN, DATE_FORMAT), 'days');
 
         const dates = [];
         times(leftBuffer, (i) => {
@@ -98,7 +98,7 @@ export default class Photos extends Component {
         const initialIndex = moment(dates[0], DATE_FORMAT).diff(moment(DATE_MIN, DATE_FORMAT), 'days');
 
         const offset = this.state.scrollPos;
-        const offsetPercentage = safeTotalSize <= renderedSize ? 0 : offset / (safeTotalSize - containerSize);
+        const offsetPercentage = safeTotalSize <= renderedSize ? 0 : (offset / (safeTotalSize - containerSize));
         const offsetAdjustment = Math.round(offsetPercentage * (safeTotalSize - totalSize));
 
         return (
