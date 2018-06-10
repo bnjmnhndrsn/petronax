@@ -18,13 +18,22 @@ const mapDispatchToProps = {
 export class Photo extends PureComponent {
     componentDidMount(){
         if (!this.props.photos && this.props.date) {
-            this.props.fetchPhotos(this.props.date);
+            this._timeout = setTimeout(() => {
+                delete this._timeout;
+                this.props.fetchPhotos(this.props.date);
+            }, 200);
         }
     }
 
     componentDidUpdate(prevProps){
         if (prevProps.date !== this.props.date && this.props.date){
             this.props.fetchPhotos(this.props.date);
+        }
+    }
+
+    componentWillUnmount(){
+        if (this._timeout) {
+            clearTimeout(this._timeout);
         }
     }
 
