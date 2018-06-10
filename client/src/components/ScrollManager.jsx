@@ -24,18 +24,12 @@ export default class ScrollManager extends Component {
     }
 
     _getInitialOffset(){
-        const unscaledScrollPosition = this.props.itemWidth * this.props.currentIndex;
-        const totalSize = this.props.totalLength * this.props.itemWidth;
+        const { totalLength, itemWidth, containerWidth, currentIndex } = this.props;
+        const unscaledScrollPosition = itemWidth * currentIndex;
+        const totalSize = totalLength * itemWidth;
         const safeTotalSize = Math.min(getMaxElementSize(), totalSize);
-        const offsetPercentage = totalSize <= this.props.containerWidth ? 0 : unscaledScrollPosition / (totalSize - this.props.containerWidth);
+        const offsetPercentage = totalSize <= containerWidth ? 0 : unscaledScrollPosition / (totalSize - containerWidth);
         return Math.round(offsetPercentage * safeTotalSize);
-    }
-
-    getIndexFromScrollPos(){
-        const totalSize = this.props.totalLength * this.props.itemWidth;
-        const safeTotalSize = Math.min(getMaxElementSize(), totalSize);
-        const offsetPercentage = safeTotalSize <= this.props.containerWidth ? 0 : this.state.scrollPos / (safeTotalSize - this.props.containerWidth);
-        return Math.floor(this.props.totalLength * offsetPercentage);
     }
 
     onScroll({target}){
@@ -65,9 +59,15 @@ export default class ScrollManager extends Component {
     }
 
     render(){
-        const currentIndex = this.getIndexFromScrollPos();
+        const { totalLength, itemWidth, containerWidth } = this.props;
+        const { scrollPos } = this.state;
+
+        const totalSize = totalLength * itemWidth;
+        const safeTotalSize = Math.min(getMaxElementSize(), totalSize);
+        const offsetPercentage = totalSize <= containerWidth ? 0 : scrollPos / (safeTotalSize - containerWidth);
+        const currentIndex = Math.floor(totalLength * offsetPercentage);
         const leftBuffer = Math.min(BUFFER_SIZE, currentIndex);
-        const visibleItems = Math.ceil(this.props.containerWidth / this.props.itemWidth);
+        const visibleItems = Math.ceil(containerWidth / itemWidth);
 
         const indices = [];
         times(leftBuffer, (i) => {
@@ -79,25 +79,20 @@ export default class ScrollManager extends Component {
             if (index < this.props.totalLength) {
                 indices.push(index);
             }
-        })
+        });
 
-        const renderedSize = indices.length * this.props.itemWidth;
-        const totalSize = this.props.totalLength * this.props.itemWidth;
-        const safeTotalSize = Math.min(getMaxElementSize(), totalSize);
-        const offset = this.state.scrollPos;
-        const offsetPercentage = safeTotalSize <= renderedSize ? 0 : (offset / (safeTotalSize - this.props.containerWidth));
         const offsetAdjustment = Math.round(offsetPercentage * (safeTotalSize - totalSize));
 
         return (
             <div style={{overflow: 'visible', width: 0}}>
-                <div className="photos-wrapper" style={{width: `${this.props.containerWidth}px`}} ref={this.bindEl} onScroll={this.onScroll}>
+                <div className="photos-wrapper" style={{width: `${containerWidth}px`}} ref={this.bindEl} onScroll={this.onScroll}>
                     <div className="photos-container" style={{width: `${safeTotalSize}px` }}>
                         {
                             indices.map((index) => {
-                                const left = (index * this.props.itemWidth) + offsetAdjustment;
+                                const left = (index * itemWidth) + offsetAdjustment;
                                 return (
-                                    <div key={index} style={{position: 'absolute', top: '0', bottom: '0', left: `${left}px`, width: this.props.itemWidth}}>
-                                        <Photo date={moment(DATE_MIN, DATE_FORMAT).add(index, 'days').format(DATE_FORMAT)} photoWidth={this.props.itemWidth} />
+                                    <div key={index} style={{position: 'absolute', top: '0', bottom: '0', left: `${left}px`, width: itemWidth}}>
+                                        <Photo date={moment(DATE_MIN, DATE_FORMAT).add(index, 'days').format(DATE_FORMAT)} photoWidth={itemWidth} />
                                     </div>
                                 );
                             })
