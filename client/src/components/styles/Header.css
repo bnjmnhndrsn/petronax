@@ -47,3 +47,9 @@
     font-size: 24px;
     margin: 5px;
 }
+
+.date-picker input {
+    width: 70px;
+    margin-right: 30px;
+
+}
