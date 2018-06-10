@@ -37,10 +37,6 @@ export class Photo extends PureComponent {
         }
     }
 
-    //
-    // { isLoading && 'Loading...' }
-    // { !isLoading && !photo && 'No Photo.'}
-
     render(){
         const isLoading = !this.props.photos;
         const photo = this.props.photos && this.props.photos[0];
@@ -69,7 +65,11 @@ export class Photo extends PureComponent {
                 {
                     photo &&
                     <div className="title">
-                        <a href="https://commons.wikimedia.org/wiki/File:Funeral_of_George_Brown_1880.jpg" target="_blank">
+                        <a
+                            rel="noopener noreferrer"
+                            href="https://commons.wikimedia.org/wiki/File:Funeral_of_George_Brown_1880.jpg"
+                            target="_blank"
+                        >
                             {photo.title}
                         </a>
                     </div>
