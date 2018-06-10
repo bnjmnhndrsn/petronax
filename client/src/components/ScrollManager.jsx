@@ -17,7 +17,38 @@ export default class ScrollManager extends Component {
         };
 
         this.onScroll = this.onScroll.bind(this);
-        this.bindEl = this.bindEl.bind(this)
+        this.bindEl = this.bindEl.bind(this);
+        this.broadcastScrollUpdate = this.broadcastScrollUpdate.bind(this);
+    }
+
+    static getDerivedStateFromProps(props, state){
+        let shouldUpdate = false;
+        if (!state.scrollPos) {
+            shouldUpdate = true;
+        } else {
+            const { totalLength, itemWidth, containerWidth } = props;
+            const { scrollPos } = state;
+
+            const totalSize = totalLength * itemWidth;
+            const safeTotalSize = Math.min(getMaxElementSize(), totalSize);
+            const offsetPercentage = totalSize <= containerWidth ? 0 : scrollPos / (safeTotalSize - containerWidth);
+            const currentIndex = Math.floor(totalLength * offsetPercentage);
+
+            if (currentIndex !== props.currentIndex) {
+                shouldUpdate = true;
+            }
+        }
+
+        if (shouldUpdate) {
+            const { totalLength, itemWidth, containerWidth, currentIndex } = props;
+            const unscaledScrollPosition = itemWidth * currentIndex;
+            const totalSize = totalLength * itemWidth;
+            const safeTotalSize = Math.min(getMaxElementSize(), totalSize);
+            const offsetPercentage = totalSize <= containerWidth ? 0 : unscaledScrollPosition / (totalSize - containerWidth);
+            return { scrollPos: Math.round(offsetPercentage * safeTotalSize) };
+        }
+
+        return null;
     }
 
     _getInitialOffset(){
@@ -29,6 +60,19 @@ export default class ScrollManager extends Component {
         return Math.round(offsetPercentage * safeTotalSize);
     }
 
+    broadcastScrollUpdate(){
+        const { totalLength, itemWidth, containerWidth } = this.props;
+        const { scrollPos } = this.state;
+
+        const totalSize = totalLength * itemWidth;
+        const safeTotalSize = Math.min(getMaxElementSize(), totalSize);
+        const offsetPercentage = totalSize <= containerWidth ? 0 : scrollPos / (safeTotalSize - containerWidth);
+        const newIndex = Math.floor(totalLength * offsetPercentage);
+        if (newIndex !== this.props.currentIndex) {
+            this.props.onIndexChange(newIndex)
+        }
+    }
+
     onScroll({target}){
         this.lastKnownScrollPosition = target.scrollLeft;
 
@@ -36,13 +80,18 @@ export default class ScrollManager extends Component {
             requestAnimationFrame(() => {
                 this.setState({
                     scrollPos: this.lastKnownScrollPosition
-                });
+                }, this.broadcastScrollUpdate);
                 this.ticking = false;
             });
             this.ticking = true;
         }
     }
 
+    componentDidUpdate(){
+        if (this.el) {
+            this.el.scrollLeft = this.state.scrollPos;
+        }
+    }
 
 
     bindEl(el){

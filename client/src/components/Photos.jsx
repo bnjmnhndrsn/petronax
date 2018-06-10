@@ -9,6 +9,7 @@ export default class Photos extends Component {
     constructor(){
         super();
         this.renderItem = this.renderItem.bind(this);
+        this.onIndexChange = this.onIndexChange.bind(this);
     }
 
     renderItem({index, style}){
@@ -17,6 +18,10 @@ export default class Photos extends Component {
                 <Photo date={moment(DATE_MIN, DATE_FORMAT).add(index, 'days').format(DATE_FORMAT)} photoWidth={this.props.photoWidth} />
             </div>
         )
+    }
+
+    onIndexChange(index){
+        this.props.setDate(moment(DATE_MIN, DATE_FORMAT).add(index, 'days').format(DATE_FORMAT));
     }
 
     render(){
@@ -32,6 +37,7 @@ export default class Photos extends Component {
                 itemWidth={itemWidth}
                 totalLength={totalPossibleDates}
                 renderItem={this.renderItem}
+                onIndexChange={this.onIndexChange}
             />
         )
     }
