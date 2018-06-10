@@ -45,7 +45,8 @@ export default class ScrollManager extends Component {
             const totalSize = totalLength * itemWidth;
             const safeTotalSize = Math.min(getMaxElementSize(), totalSize);
             const offsetPercentage = totalSize <= containerWidth ? 0 : unscaledScrollPosition / (totalSize - containerWidth);
-            return { scrollPos: Math.round(offsetPercentage * safeTotalSize) };
+            const scrollPos = Math.round(offsetPercentage * (safeTotalSize - containerWidth));
+            return { scrollPos: scrollPos };
         }
 
         return null;
