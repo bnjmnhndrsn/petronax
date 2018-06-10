@@ -75,13 +75,19 @@ export default class ScrollManager extends Component {
     }
 
     onScroll({target}){
+        if (target !== this.el) {
+            return;
+        }
+
         this.lastKnownScrollPosition = target.scrollLeft;
 
         if (!this.ticking) {
             requestAnimationFrame(() => {
-                this.setState({
-                    scrollPos: this.lastKnownScrollPosition
-                }, this.broadcastScrollUpdate);
+                if (this.lastKnownScrollPosition !== this.state.scrollPos) {
+                    this.setState({
+                        scrollPos: this.lastKnownScrollPosition
+                    }, this.broadcastScrollUpdate);
+                }
                 this.ticking = false;
             });
             this.ticking = true;
@@ -132,7 +138,7 @@ export default class ScrollManager extends Component {
 
         return (
             <div style={{overflow: 'visible', width: 0}}>
-                <div className="scroll-wrapper dragscroll" style={{width: `${containerWidth}px`}} ref={this.bindEl} onScroll={this.onScroll}>
+                <div className="scroll-wrapper" style={{width: `${containerWidth}px`}} ref={this.bindEl} onScroll={this.onScroll}>
                     <div className="scroll-container" style={{width: `${safeTotalSize}px` }}>
                         {
                             indices.map((index) => {

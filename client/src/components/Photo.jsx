@@ -39,41 +39,39 @@ export class Photo extends PureComponent {
 
     render(){
         const isLoading = !this.props.photos;
-        const photo = this.props.photos && this.props.photos[0];
-
+        const hasPhotos = this.props.photos && !!this.props.photos.length;
         return (
-            <div className="photo" style={{width: `${this.props.photoWidth}px`}}>
+            <div className="photo" style={{width: `${this.props.photoWidth}px`}} >
                 {
-                    !isLoading && photo &&
-                    <div
-                        className="img-container"
-                        style={{backgroundImage: `url(${photo.scaled_url})`, width: `${this.props.photoWidth - 20}px`}}
-
-                    />
+                    hasPhotos && this.props.photos.map(photo => (
+                        <div class="photo-item" key={photo.scaled_url}>
+                            <div
+                                className="img-container"
+                                style={{backgroundImage: `url(${photo.scaled_url})`, width: `${this.props.photoWidth - 20}px`}}
+                            />
+                            <div className="title">
+                                <a
+                                    rel="noopener noreferrer"
+                                    href="https://commons.wikimedia.org/wiki/File:Funeral_of_George_Brown_1880.jpg"
+                                    target="_blank"
+                                >
+                                    {photo.title}
+                                </a>
+                            </div>
+                        </div>
+                    ))
                 }
                 {
                     isLoading &&
                     <div className="status-text">Loading...</div>
                 }
                 {
-                    !isLoading && !photo &&
-                    <div className="status-text">No Photo</div>
+                    !isLoading && !hasPhotos &&
+                    <div className="status-text">No Photos</div>
                 }
                 <div className="date">
                     { moment(this.props.date, DATE_FORMAT).format('D') }
                 </div>
-                {
-                    photo &&
-                    <div className="title">
-                        <a
-                            rel="noopener noreferrer"
-                            href="https://commons.wikimedia.org/wiki/File:Funeral_of_George_Brown_1880.jpg"
-                            target="_blank"
-                        >
-                            {photo.title}
-                        </a>
-                    </div>
-                }
             </div>
         )
     }
