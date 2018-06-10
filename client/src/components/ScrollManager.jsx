@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import moment from 'moment';
 import { times } from 'lodash';
 import 'dragscroll';
 
 import { getMaxElementSize } from '../utils';
-import { DATE_MIN, DATE_FORMAT } from '../constants';
-import Photo from './Photo';
 
-import './styles/Photos.css'
+import './styles/ScrollManager.css'
 
 const BUFFER_SIZE = 3;
 
@@ -59,7 +56,7 @@ export default class ScrollManager extends Component {
     }
 
     render(){
-        const { totalLength, itemWidth, containerWidth } = this.props;
+        const { totalLength, itemWidth, containerWidth, renderItem } = this.props;
         const { scrollPos } = this.state;
 
         const totalSize = totalLength * itemWidth;
@@ -85,16 +82,13 @@ export default class ScrollManager extends Component {
 
         return (
             <div style={{overflow: 'visible', width: 0}}>
-                <div className="photos-wrapper" style={{width: `${containerWidth}px`}} ref={this.bindEl} onScroll={this.onScroll}>
-                    <div className="photos-container" style={{width: `${safeTotalSize}px` }}>
+                <div className="scroll-wrapper" style={{width: `${containerWidth}px`}} ref={this.bindEl} onScroll={this.onScroll}>
+                    <div className="scroll-container" style={{width: `${safeTotalSize}px` }}>
                         {
                             indices.map((index) => {
                                 const left = (index * itemWidth) + offsetAdjustment;
-                                return (
-                                    <div key={index} style={{position: 'absolute', top: '0', bottom: '0', left: `${left}px`, width: itemWidth}}>
-                                        <Photo date={moment(DATE_MIN, DATE_FORMAT).add(index, 'days').format(DATE_FORMAT)} photoWidth={itemWidth} />
-                                    </div>
-                                );
+                                const style = {position: 'absolute', top: '0', bottom: '0', left: `${left}px`, width: itemWidth};
+                                return renderItem({style, index});
                             })
                         }
                     </div>

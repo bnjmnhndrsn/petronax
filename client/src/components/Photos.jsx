@@ -3,8 +3,22 @@ import moment from 'moment';
 
 import ScrollManager from './ScrollManager';
 import { DATE_FORMAT, DATE_MIN, DATE_MAX } from '../constants';
+import Photo from './Photo';
 
 export default class Photos extends Component {
+    constructor(){
+        super();
+        this.renderItem = this.renderItem.bind(this);
+    }
+
+    renderItem({index, style}){
+        return (
+            <div key={index} style={style}>
+                <Photo date={moment(DATE_MIN, DATE_FORMAT).add(index, 'days').format(DATE_FORMAT)} photoWidth={this.props.photoWidth} />
+            </div>
+        )
+    }
+
     render(){
         const containerWidth = this.props.windowWidth;
         const itemWidth = this.props.photoWidth;
@@ -17,6 +31,7 @@ export default class Photos extends Component {
                 containerWidth={containerWidth}
                 itemWidth={itemWidth}
                 totalLength={totalPossibleDates}
+                renderItem={this.renderItem}
             />
         )
     }
