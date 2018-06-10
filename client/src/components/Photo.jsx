@@ -55,18 +55,25 @@ export class Photo extends PureComponent {
 
                     />
                 }
+                {
+                    isLoading &&
+                    <div className="status-text">Loading...</div>
+                }
+                {
+                    !isLoading && !photo &&
+                    <div className="status-text">No Photo</div>
+                }
                 <div className="date">
                     { moment(this.props.date, DATE_FORMAT).format('D') }
                 </div>
                 {
                     photo &&
                     <div className="title">
-                        {photo.title}
+                        <a href="https://commons.wikimedia.org/wiki/File:Funeral_of_George_Brown_1880.jpg" target="_blank">
+                            {photo.title}
+                        </a>
                     </div>
                 }
-
-
-
             </div>
         )
     }

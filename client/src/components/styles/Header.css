@@ -1,0 +1,49 @@
+.header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 125px;
+    border-bottom: 3px solid #1a1a1a;
+}
+
+.header-item {
+    width: 50%;
+    height: 100%;
+    float: left;
+}
+
+@media(max-width: 792px){
+    .header-item {
+        width: 100%;
+        height: 50%;
+    }
+}
+
+.brand {
+    flex-direction: row;
+    align-items: center;
+    font-size: 36px;
+    display: flex;
+
+}
+
+.brand span {
+    padding-left: 30px;
+}
+
+.date-picker {
+    flex-direction: row;
+    align-items: center;
+    flex: 1;
+    justify-content: flex-end;
+}
+
+.month-picker, .date-picker {
+    display: flex;
+}
+
+.date-picker select, .date-picker input {
+    font-size: 24px;
+    margin: 5px;
+}

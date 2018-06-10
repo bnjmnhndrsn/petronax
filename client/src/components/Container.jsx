@@ -5,7 +5,7 @@ import windowSize from 'react-window-size';
 
 import { actions as uiActions } from '../reducers/ui';
 
-import DatePicker from './DatePicker';
+import Header from './Header';
 import Photos from './Photos';
 
 import './styles/Container.css';
@@ -35,7 +35,7 @@ class App extends Component {
 
         return (
             <div className="app">
-                <DatePicker date={this.props.date} setDate={this.props.setDate} />
+                <Header date={this.props.date} setDate={this.props.setDate} />
                 <Photos date={this.props.date} setDate={this.props.setDate} windowWidth={this.props.windowWidth} photoWidth={photoWidth} />
             </div>
         );

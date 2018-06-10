@@ -19,7 +19,7 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    margin: 0 10px;
+    margin: 0 10px 10px 10px;
 }
 
 .photo .date {
@@ -42,6 +42,20 @@
     right: 5px;
     font-style: italic;
     background-color: rgba(26, 26, 26, 0.8);
-    color: white;
+
     padding: 5px;
+}
+
+.photo .title a {
+    color: white;
+    text-decoration: none;
+}
+
+.photo .status-text {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    font-size: 24px;
+    font-style: italic;
 }
