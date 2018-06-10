@@ -37,29 +37,36 @@ export class Photo extends PureComponent {
         }
     }
 
+    //
+    // { isLoading && 'Loading...' }
+    // { !isLoading && !photo && 'No Photo.'}
+
     render(){
         const isLoading = !this.props.photos;
         const photo = this.props.photos && this.props.photos[0];
 
         return (
-            <div className="photo" style={{width: `${this.props.photoWidth - 40}px`}}>
-                <div className="date">
-                    { moment(this.props.date, DATE_FORMAT).format('MMM Do, YYYY') }
-                </div>
-                <div className="title">
-                    { isLoading && 'Loading...' }
-                    { !isLoading && !photo && 'No Photo.'}
-                    {
-                        photo &&
-                        <a href={photo.description_url} target="_blank">
-                            {photo.title}
-                        </a>
-                    }
-                </div>
+            <div className="photo" style={{width: `${this.props.photoWidth}px`}}>
                 {
                     !isLoading && photo &&
-                    <div className="img-container" style={{backgroundImage: `url(${photo.scaled_url})`}} />
+                    <div
+                        className="img-container"
+                        style={{backgroundImage: `url(${photo.scaled_url})`, width: `${this.props.photoWidth - 20}px`}}
+
+                    />
                 }
+                <div className="date">
+                    { moment(this.props.date, DATE_FORMAT).format('D') }
+                </div>
+                {
+                    photo &&
+                    <div className="title">
+                        {photo.title}
+                    </div>
+                }
+
+
+
             </div>
         )
     }

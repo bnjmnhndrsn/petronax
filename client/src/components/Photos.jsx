@@ -14,7 +14,7 @@ export default class Photos extends Component {
 
     renderItem({index, style}){
         return (
-            <div key={index} style={style}>
+            <div className="photo-wrapper" key={index} style={style}>
                 <Photo date={moment(DATE_MIN, DATE_FORMAT).add(index, 'days').format(DATE_FORMAT)} photoWidth={this.props.photoWidth} />
             </div>
         )
