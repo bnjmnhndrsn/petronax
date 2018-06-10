@@ -74,13 +74,21 @@ export default class Photos extends Component {
 
     render(){
         const currentDate = this.getDateFromScrollPos();
-        const renderedDates = (2 * BUFFER_SIZE) +  Math.ceil(this.props.windowWidth / this.props.photoWidth );
-        const dateOffset = Math.floor(renderedDates / 2);
+        const leftBuffer = Math.min(BUFFER_SIZE, moment(currentDate).diff(moment(DATE_MIN, DATE_FORMAT), 'days'));
+        const rightBuffer = Math.min(BUFFER_SIZE, moment().subtract(1, 'days').diff(moment(currentDate, DATE_FORMAT), 'days'));
+        const visibleDates = Math.ceil(this.props.windowWidth / this.props.photoWidth );
+        const renderedDates = leftBuffer + rightBuffer + visibleDates;
         const totalPossibleDates = moment().subtract(1, 'days').diff(moment(DATE_MIN, DATE_FORMAT), 'days');
 
-        const dates = times(renderedDates, (i) => {
-            const date = moment(currentDate).subtract(dateOffset, 'day').add(i, 'day')
-            return date.format(DATE_FORMAT);
+        const dates = [];
+        times(leftBuffer, (i) => {
+            const date = moment(currentDate).subtract(leftBuffer - i, 'day');
+            dates.push(date.format(DATE_FORMAT));
+        });
+
+        times(visibleDates + rightBuffer, (i) => {
+            const date = moment(currentDate).add(i, 'day');
+            dates.push(date.format(DATE_FORMAT));
         });
 
         const containerSize = this.props.windowWidth;
