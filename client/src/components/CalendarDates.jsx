@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 
-import ScrollManager from './ScrollManager';
+import VirtualizedScrollManager from './VirtualizedScrollManager';
 import { DATE_FORMAT, DATE_MIN, DATE_MAX } from '../constants';
-import Photo from './Photo';
+import CalendarDate from './CalendarDate';
 
-export default class Photos extends Component {
+export default class CalendarDates extends Component {
     constructor(){
         super();
         this.renderItem = this.renderItem.bind(this);
@@ -15,7 +15,7 @@ export default class Photos extends Component {
     renderItem({index, style}){
         return (
             <div className="photo-wrapper" key={index} style={style}>
-                <Photo date={moment(DATE_MIN, DATE_FORMAT).add(index, 'days').format(DATE_FORMAT)} photoWidth={this.props.photoWidth} />
+                <CalendarDate date={moment(DATE_MIN, DATE_FORMAT).add(index, 'days').format(DATE_FORMAT)} photoWidth={this.props.photoWidth} />
             </div>
         )
     }
@@ -31,7 +31,7 @@ export default class Photos extends Component {
         const currentIndex = moment(this.props.date, DATE_FORMAT).diff(moment(DATE_MIN, DATE_FORMAT), 'days');
 
         return (
-            <ScrollManager
+            <VirtualizedScrollManager
                 currentIndex={currentIndex}
                 containerWidth={containerWidth}
                 itemWidth={itemWidth}

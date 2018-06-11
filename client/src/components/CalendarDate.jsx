@@ -5,7 +5,7 @@ import moment from 'moment';
 import { asyncActions as photoAsyncActions } from '../reducers/photos';
 import { DATE_FORMAT } from '../constants';
 
-import './styles/Photo.css';
+import './styles/CalendarDate.css';
 
 const mapStateToProps = (state, ownProps) => ({
     photos: state.photos[ownProps.date]
@@ -15,7 +15,7 @@ const mapDispatchToProps = {
     fetchPhotos: photoAsyncActions.fetchPhotos
 };
 
-export class Photo extends PureComponent {
+export class CalendarDate extends PureComponent {
     componentDidMount(){
         if (!this.props.photos && this.props.date) {
             this._timeout = setTimeout(() => {
@@ -52,7 +52,7 @@ export class Photo extends PureComponent {
                             <div className="title">
                                 <a
                                     rel="noopener noreferrer"
-                                    href="https://commons.wikimedia.org/wiki/File:Funeral_of_George_Brown_1880.jpg"
+                                    href={photo.description_url}
                                     target="_blank"
                                 >
                                     {photo.title}
@@ -77,4 +77,4 @@ export class Photo extends PureComponent {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Photo);
+export default connect(mapStateToProps, mapDispatchToProps)(CalendarDate);

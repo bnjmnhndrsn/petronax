@@ -4,11 +4,11 @@ import 'dragscroll';
 
 import { getMaxElementSize } from '../utils';
 
-import './styles/ScrollManager.css'
+import './styles/VirtualizedScrollManager.css'
 
 const BUFFER_SIZE = 3;
 
-export default class ScrollManager extends Component {
+export default class VirtualizedScrollManager extends Component {
     constructor(props){
         super(props);
 

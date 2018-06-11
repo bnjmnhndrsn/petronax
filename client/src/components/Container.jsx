@@ -6,7 +6,7 @@ import windowSize from 'react-window-size';
 import { actions as uiActions } from '../reducers/ui';
 
 import Header from './Header';
-import Photos from './Photos';
+import CalendarDates from './CalendarDates';
 
 import './styles/Container.css';
 
@@ -36,7 +36,7 @@ class App extends Component {
         return (
             <div className="app">
                 <Header date={this.props.date} setDate={this.props.setDate} />
-                <Photos date={this.props.date} setDate={this.props.setDate} windowWidth={this.props.windowWidth} photoWidth={photoWidth} />
+                <CalendarDates date={this.props.date} setDate={this.props.setDate} windowWidth={this.props.windowWidth} photoWidth={photoWidth} />
             </div>
         );
     }
