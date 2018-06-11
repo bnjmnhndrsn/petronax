@@ -4,6 +4,7 @@ import moment from 'moment';
 
 import { asyncActions as photoAsyncActions } from '../reducers/photos';
 import { DATE_FORMAT } from '../constants';
+import PhotoList from './PhotoList';
 
 import './styles/CalendarDate.css';
 
@@ -43,23 +44,7 @@ export class CalendarDate extends PureComponent {
         return (
             <div className="photo" style={{width: `${this.props.photoWidth}px`}} >
                 {
-                    hasPhotos && this.props.photos.map(photo => (
-                        <div class="photo-item" key={photo.scaled_url}>
-                            <div
-                                className="img-container"
-                                style={{backgroundImage: `url(${photo.scaled_url})`, width: `${this.props.photoWidth - 20}px`}}
-                            />
-                            <div className="title">
-                                <a
-                                    rel="noopener noreferrer"
-                                    href={photo.description_url}
-                                    target="_blank"
-                                >
-                                    {photo.title}
-                                </a>
-                            </div>
-                        </div>
-                    ))
+                    hasPhotos && <PhotoList photos={this.props.photos} photoWidth={this.props.photoWidth} />
                 }
                 {
                     isLoading &&
