@@ -5,6 +5,7 @@
     bottom: 0px;
     right: 0;
     overflow-x: auto;
+    will-change: transform;
 }
 
 .scroll-container {
