@@ -7,12 +7,6 @@
     overflow-x: auto;
 }
 
-@media(max-width: 792px) {
-    .scroll-wrapper {
-        overflow-x: hidden;
-    }
-}
-
 .scroll-container {
     position: relative;
     height: 95%;
