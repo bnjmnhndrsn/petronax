@@ -10,7 +10,7 @@ export default class PhotoList extends Component {
             <div className="photo-list">
                 {
                     this.props.photos.map(photo => (
-                        <div class="photo-item" key={photo.scaled_url}>
+                        <div className="photo-item" key={photo.scaled_url}>
                             <div
                                 className="img-container"
                                 style={{backgroundImage: `url(${photo.scaled_url})`, width: `${this.props.photoWidth - 20}px`}}

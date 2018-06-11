@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { times } from 'lodash';
+import 'dragscroll';
 
 import { getMaxElementSize } from '../utils';
 
@@ -137,7 +138,7 @@ export default class VirtualizedScrollManager extends Component {
 
         return (
             <div style={{overflow: 'visible', width: 0}}>
-                <div className="scroll-wrapper" style={{width: `${containerWidth}px`}} ref={this.bindEl} onScroll={this.onScroll}>
+                <div className="scroll-wrapper dragscroll" style={{width: `${containerWidth}px`}} ref={this.bindEl} onScroll={this.onScroll}>
                     <div className="scroll-container" style={{width: `${safeTotalSize}px` }}>
                         {
                             indices.map((index) => {
