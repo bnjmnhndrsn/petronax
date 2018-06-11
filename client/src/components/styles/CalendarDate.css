@@ -1,9 +1,9 @@
 .photo-wrapper {
-    border-left: 3px solid #1a1a1a;
+    border-left: 2px solid #1a1a1a;
 }
 
 .photo-wrapper:last-child {
-    border-right: 3px solid #1a1a1a;
+    border-right: 2px solid #1a1a1a;
 }
 
 .photo {
@@ -32,7 +32,8 @@
     height: 50px;
     width: 50px;
     width: 50px;
-    font-size: 42px;
+    font-size: 40px;
+    line-height: 54px;
     text-align: center;
     background-color: #1a1a1a;
     color: white;
@@ -43,10 +44,10 @@
     position: absolute;
     bottom: 0;
     left: 2px;
-    right: 5px;
-    font-style: italic;
+    right: 4px;
     background-color: rgba(26, 26, 26, 0.8);
     padding: 5px;
+    line-height: 20px;
 }
 
 .photo .title a {
