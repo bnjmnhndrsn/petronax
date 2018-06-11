@@ -4,11 +4,9 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
-    "dragscroll": "0.0.8",
     "moment": "^2.22.1",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
-    "react-draggable": "^3.0.5",
     "react-scripts": "1.1.4",
     "react-window-size": "^1.2.0"
   },

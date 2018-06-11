@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { times } from 'lodash';
-import 'dragscroll';
 
 import { getMaxElementSize } from '../utils';
 
