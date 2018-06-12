@@ -9,7 +9,10 @@ export default function DatePicker ({date, setDate}) {
     return (
         <div className="header">
             <div className="brand header-item">
-                <span>The Photochronometer</span>
+                <div className="logo">
+                    <span className="prefix">The</span>
+                    <span className="name">{' '}Photochronometer</span>
+                </div>
             </div>
             <div className="date-picker  header-item">
                 <MonthPicker date={date} setDate={setDate} />

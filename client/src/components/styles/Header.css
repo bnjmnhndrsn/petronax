@@ -3,8 +3,8 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 125px;
-    border-bottom: 2px solid #1a1a1a;
+    height: 60px;
+    border-bottom: 1px solid #1a1a1a;
 }
 
 .header-item {
@@ -16,13 +16,21 @@
 .brand {
     flex-direction: row;
     align-items: center;
-    font-size: 36px;
     display: flex;
 
 }
 
-.brand span {
+.logo {
     padding-left: 30px;
+}
+
+.logo .prefix {
+    font-size: 24px;
+    font-style: italic;
+}
+
+.logo .name {
+    font-size: 36px;
 }
 
 .date-picker {
@@ -48,6 +56,32 @@
 }
 
 @media(max-width: 792px){
+    .logo {
+        padding-left: 10px;
+    }
+
+    .logo .prefix {
+        font-size: 12px;
+        font-style: italic;
+    }
+
+    .logo .name {
+        font-size: 18px;
+    }
+
+    .date-picker select, .date-picker input {
+        font-size: 16px;
+        margin: 5px;
+        font-family: 'Amiri', serif;
+    }
+
+    .date-picker input {
+        width: 50px;
+        margin-right: 10px;
+    }
+}
+
+/* @media(max-width: 792px){
     .header-item {
         width: 100%;
         height: 50%;
@@ -66,4 +100,4 @@
         font-size: 24px;
         justify-content: center;
     }
-}
+} */

@@ -143,7 +143,7 @@ export default class VirtualizedScrollManager extends Component {
                         {
                             indices.map((index) => {
                                 const left = (index * itemWidth) + offsetAdjustment;
-                                const style = {position: 'absolute', top: '0', bottom: '0', left: `${left}px`, width: itemWidth};
+                                const style = {position: 'absolute', top: '0', bottom: '0', left: '0', transform: `translateX(${left}px)`, width: itemWidth, transition: 'transform 0.1s linear'};
                                 return renderItem({style, index});
                             })
                         }
