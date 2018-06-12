@@ -22,6 +22,9 @@ export default class PhotoList extends Component {
                                     target="_blank"
                                 >
                                     {photo.title}
+                                    <span className="link-icon">
+                                        <i className="fa fa-external-link-alt fa-sm" />
+                                    </span>
                                 </a>
                             </div>
                         </div>
