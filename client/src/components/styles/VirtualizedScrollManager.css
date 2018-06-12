@@ -1,9 +1,6 @@
 .scroll-wrapper {
-    position: absolute;
-    top: 100px;
-    left: 0;
-    bottom: 0px;
-    right: 0;
+    display: flex;
+    flex: 1;
     overflow-x: auto;
     will-change: transform;
 }

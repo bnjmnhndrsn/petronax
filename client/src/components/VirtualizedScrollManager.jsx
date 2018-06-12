@@ -137,17 +137,15 @@ export default class VirtualizedScrollManager extends Component {
         const offsetAdjustment = Math.round(offsetPercentage * (safeTotalSize - totalSize));
 
         return (
-            <div style={{overflow: 'visible', width: 0}}>
-                <div className="scroll-wrapper dragscroll" style={{width: `${containerWidth}px`}} ref={this.bindEl} onScroll={this.onScroll}>
-                    <div className="scroll-container" style={{width: `${safeTotalSize}px` }}>
-                        {
-                            indices.map((index) => {
-                                const left = (index * itemWidth) + offsetAdjustment;
-                                const style = {position: 'absolute', top: '0', bottom: '0', left: '0', transform: `translateX(${left}px)`, width: itemWidth, transition: 'transform 0.1s linear'};
-                                return renderItem({style, index});
-                            })
-                        }
-                    </div>
+            <div className="scroll-wrapper dragscroll" style={{width: `${containerWidth}px`}} ref={this.bindEl} onScroll={this.onScroll}>
+                <div className="scroll-container" style={{width: `${safeTotalSize}px` }}>
+                    {
+                        indices.map((index) => {
+                            const left = (index * itemWidth) + offsetAdjustment;
+                            const style = {position: 'absolute', top: '0', bottom: '0', left: '0', transform: `translateX(${left}px)`, width: itemWidth, transition: 'transform 0.1s linear'};
+                            return renderItem({style, index});
+                        })
+                    }
                 </div>
             </div>
 
