@@ -4,6 +4,7 @@ import windowSize from 'react-window-size';
 import queryString from 'query-string';
 
 import { actions as uiActions } from '../reducers/ui';
+import { isValidDate, randomDate } from '../utils';
 
 import Header from './Header';
 import CalendarDates from './CalendarDates';
@@ -20,12 +21,23 @@ const mapDispatchToProps = {
 
 class ExplorerContainer extends Component {
     componentDidMount(){
-        const query = queryString.parse(this.props.location.search);
-        console.log(query);
-        if (this.props.date !== query.date) {
-            this.props.setDate(query.date);
+        const { date } = queryString.parse(this.props.location.search);
+        let newDate;
+
+        if (isValidDate(date) && this.props.date !== date) {
+            newDate = date;
+        } else {
+            newDate = randomDate();
         }
+
+        this.props.setDate(newDate);
     }
+
+    componentDidUpdate(prevProps){
+        if (this.props.date !== prevProps.date) {
+            this.props.history.replace(`/explore/?date=${this.props.date}`);
+        }
+    };
 
     render() {
         const photoWidth = Math.min(this.props.windowWidth - 20, 500);

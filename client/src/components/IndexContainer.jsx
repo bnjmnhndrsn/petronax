@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import moment from 'moment';
 
-import { DATE_FORMAT } from '../constants';
+import { randomDate } from '../utils';
 
 export default class IndexContainer extends Component {
     componentDidMount(){
-        const newLocation = moment().subtract(Math.floor(Math.random() * 200), 'years').format(DATE_FORMAT);
+        const newLocation = randomDate();
         this.props.history.replace(`/explore/?date=${newLocation}`);
     }
 
