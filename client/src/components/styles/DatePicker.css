@@ -1,0 +1,33 @@
+.date-picker {
+    flex-direction: row;
+    align-items: center;
+    flex: 1;
+}
+
+.month-picker, .date-picker {
+    display: flex;
+}
+
+.date-picker select, .date-picker input {
+    font-size: 24px;
+    margin: 5px;
+    font-family: 'Amiri', serif;
+}
+
+.date-picker input {
+    width: 70px;
+    margin-right: 30px;
+}
+
+@media(max-width: 792px){
+    .date-picker select, .date-picker input {
+        font-size: 16px;
+        margin: 5px;
+        font-family: 'Amiri', serif;
+    }
+
+    .date-picker input {
+        width: 50px;
+        margin-right: 10px;
+    }
+}

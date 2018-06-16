@@ -20,3 +20,26 @@ body {
     display: flex;
     flex-direction: column;
 }
+
+.button {
+    background-color: white;
+    border: 1px solid #1a1a1a;
+    font-size: 24px;
+    padding: 0 6px;
+    margin: 0;
+    cursor: pointer;
+    height: 48px;
+    vertical-align: middle;
+}
+
+.button:active {
+    background-color: rgba(26, 26, 26, 0.1);
+}
+
+.button:focus {
+    outline: none;
+}
+
+a {
+    color: #1a1a1a;
+}

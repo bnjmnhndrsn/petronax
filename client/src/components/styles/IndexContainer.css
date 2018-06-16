@@ -1,0 +1,24 @@
+.index__description {
+    font-size: 36px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    line-height: 46px;
+}
+
+.index__description p {
+    max-width: 600px;
+}
+
+
+.index__actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.index__actions__item {
+    display: flex;
+    align-items: center;
+}

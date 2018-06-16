@@ -9,8 +9,6 @@ import { isValidDate, randomDate } from '../utils';
 import Header from './Header';
 import CalendarDates from './CalendarDates';
 
-import './styles/Container.css';
-
 const mapStateToProps = (state) => ({
     date: state.ui.date,
 });
@@ -45,12 +43,7 @@ class ExplorerContainer extends Component {
             return null;
         }
 
-        return (
-            <div className="app">
-                <Header date={this.props.date} setDate={this.props.setDate} />
-                <CalendarDates date={this.props.date} setDate={this.props.setDate} windowWidth={this.props.windowWidth} photoWidth={photoWidth} />
-            </div>
-        );
+        return <CalendarDates date={this.props.date} setDate={this.props.setDate} windowWidth={this.props.windowWidth} photoWidth={photoWidth} />;
     }
 }
 

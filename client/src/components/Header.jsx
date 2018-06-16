@@ -1,11 +1,11 @@
 import React from 'react';
-
-import MonthPicker from './MonthPicker';
-import YearPicker from './YearPicker';
+import { Route } from 'react-router-dom';
 
 import './styles/Header.css';
 
-export default function DatePicker ({date, setDate}) {
+import DatePicker from './DatePicker';
+
+export default function Header () {
     return (
         <div className="header">
             <div className="brand header-item">
@@ -14,10 +14,7 @@ export default function DatePicker ({date, setDate}) {
                     <span className="name">{' '}Photochronometer</span>
                 </div>
             </div>
-            <div className="date-picker  header-item">
-                <MonthPicker date={date} setDate={setDate} />
-                <YearPicker date={date} setDate={setDate} />
-            </div>
+            <Route path="/explore" render={() => <div className="header-item"><DatePicker /></div>} />
         </div>
     );
 }
