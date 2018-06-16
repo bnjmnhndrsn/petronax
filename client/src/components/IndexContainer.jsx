@@ -6,8 +6,6 @@ import { actions as uiActions } from '../reducers/ui';
 
 import DatePicker from './DatePicker';
 
-import VerticalSlider from './VerticalSlider';
-
 import './styles/IndexContainer.css';
 
 const mapStateToProps = (state) => ({
@@ -48,9 +46,6 @@ export class IndexContainer extends Component {
                     <div className="index__actions__item">
                         <button className="button" onClick={this.onExplore}>Explore</button>
                     </div>
-                </div>
-                <div>
-                    <VerticalSlider />
                 </div>
             </div>
         );

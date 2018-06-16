@@ -1,6 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 
+import VerticalSlider from './VerticalSlider';
+
 import { DATE_FORMAT } from '../constants'
 
 const OPTIONS = [
@@ -8,20 +10,11 @@ const OPTIONS = [
 ];
 
 export default function MonthPicker({setDate, date}){
-    const onChange = (e) => {
-        const newValue = e.target.value;
-        setDate(moment(date, DATE_FORMAT).month(newValue).format(DATE_FORMAT));
-    }
-
-    const value = date ? moment(date, DATE_FORMAT).month() : '';
+    const renderOption = ({index, style}) => <div key={index} style={style}>{OPTIONS[index]}</div>;
 
     return (
-        <div className="month-picker">
-            <select onChange={onChange} value={value}>
-                {
-                    OPTIONS.map((month, i) => <option key={i} value={i}>{ month }</option> )
-                }
-            </select>
+        <div style={{width: '120px'}}>
+            <VerticalSlider itemHeight={30} totalLength={OPTIONS.length} renderOption={renderOption} />
         </div>
     )
 }
