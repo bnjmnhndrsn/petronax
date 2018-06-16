@@ -61,15 +61,17 @@ export default class VerticalSlider extends Component {
             indicesToRender.push(currentIdx + 1);
         }
 
+        const adjustedTop = this.state.top % (this.props.itemHeight * 5);
+
         return (
             <div style={{height: `${this.props.itemHeight}px`, overflow: 'hidden', position: 'relative'}}>
                 <DraggableCore
                     onDrag={this.handleDrag}
                 >
-                    <div style={{position: 'absolute', transform: `translate(0px, ${this.state.top}px)`}}>
+                    <div style={{position: 'absolute', transform: `translate(0px, ${adjustedTop}px)`}}>
                         {
-                            indicesToRender.map(index => {
-                                const top = index * this.props.itemHeight;
+                            indicesToRender.map((index) => {
+                                const top = ((currentIdx % 5) + (index - currentIdx)) * this.props.itemHeight;
                                 const style = {top: `${top}px`, left: 0, right: 0, height: this.props.itemHeight, position: 'absolute'};
                                 return this.props.renderOption({index, style})
                             })
