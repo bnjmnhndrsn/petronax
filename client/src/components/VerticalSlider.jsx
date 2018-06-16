@@ -2,14 +2,23 @@ import React, { Component } from 'react';
 import { DraggableCore } from 'react-draggable';
 
 export default class VerticalSlider extends Component {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
 
         this.state = {
-            top: 0
+            top: props.itemHeight * -1 * props.index
         };
 
         this.handleDrag = this.handleDrag.bind(this);
+    }
+
+    componentDidUpdate(prevProps){
+        const currentIdx = Math.floor(Math.abs(this.state.top) / this.props.itemHeight);
+        if (prevProps.index !== this.props.index && this.props.index !== currentIdx) {
+            this.setState({
+                top: this.props.itemHeight * -1 * this.props.index
+            });
+        }
     }
 
     _getMaxHeight(){
@@ -25,9 +34,18 @@ export default class VerticalSlider extends Component {
             newY = minTop;
         }
 
-        this.setState({
-            top: newY
-        });
+        if (newY !== this.state.top) {
+            const oldIdx = Math.floor(Math.abs(this.state.top) / this.props.itemHeight);
+            const newIdx = Math.floor(Math.abs(newY) / this.props.itemHeight);
+
+            this.setState({
+                top: newY
+            }, () => {
+                if (oldIdx !== newIdx) {
+                    this.props.onIndexChange && this.props.onIndexChange(newIdx);
+                }
+            });
+        }
     }
 
     render(){
@@ -42,7 +60,6 @@ export default class VerticalSlider extends Component {
         if (currentIdx + 1 < this.props.totalLength) {
             indicesToRender.push(currentIdx + 1);
         }
-
 
         return (
             <div style={{height: `${this.props.itemHeight}px`, overflow: 'hidden', position: 'relative'}}>

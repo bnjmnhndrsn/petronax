@@ -6,7 +6,6 @@ import queryString from 'query-string';
 import { actions as uiActions } from '../reducers/ui';
 import { isValidDate, randomDate } from '../utils';
 
-import Header from './Header';
 import CalendarDates from './CalendarDates';
 
 const mapStateToProps = (state) => ({

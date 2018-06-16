@@ -16,6 +16,10 @@ const mapDispatchToProps = {
 };
 
 export function DatePicker ({date, setDate}) {
+    if (!date) {
+        return null;
+    }
+
     return (
         <div className="date-picker">
             <MonthPicker date={date} setDate={setDate} />
