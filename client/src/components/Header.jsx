@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 
 import './styles/Header.css';
 
@@ -9,10 +9,12 @@ export default function Header () {
     return (
         <div className="header">
             <div className="brand header-item">
-                <div className="logo">
-                    <span className="prefix">The</span>
-                    <span className="name">{' '}Photochronometer</span>
-                </div>
+                <Link to="/">
+                    <div className="logo">
+                        <span className="prefix">The</span>
+                        <span className="name">{' '}Photochronometer</span>
+                    </div>
+                </Link>
             </div>
             <Route path="/explore" render={() => <div className="header-item"><DatePicker /></div>} />
         </div>

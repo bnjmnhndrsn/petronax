@@ -17,6 +17,10 @@
 
 }
 
+.brand a {
+    text-decoration: none;
+}
+
 .logo {
     padding-left: 30px;
 }
