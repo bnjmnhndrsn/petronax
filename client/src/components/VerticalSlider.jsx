@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { DraggableCore } from 'react-draggable';
+import { debounce } from 'lodash';
 
 export default class VerticalSlider extends Component {
     constructor(props){
@@ -10,6 +11,7 @@ export default class VerticalSlider extends Component {
         };
 
         this.handleDrag = this.handleDrag.bind(this);
+        this.broadcastUpdate = debounce(this.broadcastUpdate, 300);
     }
 
     componentDidUpdate(prevProps){
@@ -23,6 +25,10 @@ export default class VerticalSlider extends Component {
 
     _getMaxHeight(){
         return (this.props.totalLength - 1) * this.props.itemHeight * -1;
+    }
+
+    broadcastUpdate(idx){
+        this.props.onIndexChange && this.props.onIndexChange(idx);
     }
 
     handleDrag(e, ui) {
@@ -42,7 +48,7 @@ export default class VerticalSlider extends Component {
                 top: newY
             }, () => {
                 if (oldIdx !== newIdx) {
-                    this.props.onIndexChange && this.props.onIndexChange(newIdx);
+                    this.broadcastUpdate(newIdx);
                 }
             });
         }
