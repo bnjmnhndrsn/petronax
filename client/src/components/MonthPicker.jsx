@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 
-import VerticalSlider from './VerticalSlider';
+import VirtualizedDragManager from './VirtualizedDragManager';
 
 import { DATE_FORMAT } from '../constants'
 
@@ -19,12 +19,14 @@ export default function MonthPicker({setDate, date}){
     }
     return (
         <div style={{width: '120px'}}>
-            <VerticalSlider
-                index={momentDate.month()}
-                itemHeight={30}
-                totalLength={OPTIONS.length}
-                renderOption={renderOption}
+            <VirtualizedDragManager
+                currentIndex={momentDate.month()}
+                itemSize={30}
+                containerSize={30}
+                totalItems={OPTIONS.length}
+                renderItem={renderOption}
                 onIndexChange={onIndexChange}
+                scrollDirection="vertical"
             />
         </div>
     )
