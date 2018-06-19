@@ -7,8 +7,6 @@ import { getMaxElementSize } from '../utils';
 export const SCROLL_DIRECTION_VERTICAL = 'vertical';
 export const SCROLL_DIRECTION_HORIZONTAL = 'horizontal';
 
-const BUFFER_SIZE = 1;
-
 export default class VerticalSlider extends Component {
     constructor(props){
         super(props);
@@ -68,42 +66,39 @@ export default class VerticalSlider extends Component {
         const totalSize = totalItems * itemSize;
         const safeTotalSize = Math.min(getMaxElementSize(), totalSize);
         const offsetPercentage = totalSize <= containerSize ? 0 : offset / (safeTotalSize - containerSize);
-        const newIndex = Math.floor(totalItems * offsetPercentage * -1);
+        const newIndex = Math.min(Math.abs(Math.floor(totalItems * offsetPercentage * -1)), totalItems - 1);
         if (newIndex !== this.props.currentIndex) {
             this.props.onIndexChange(newIndex)
         }
     }
 
-    _getMaxHeight(){
-        return (this.props.totalItems - 1) * this.props.itemHeight * -1;
-    }
-
     handleDrag(e, ui) {
-        const { totalItems, itemSize, containerSize} = this.props;
+        const { totalItems, itemSize, containerSize, scrollDirection } = this.props;
         const totalSize = totalItems * itemSize;
         const safeTotalSize = Math.min(getMaxElementSize(), totalSize);
-        const minTop = (safeTotalSize * -1) + containerSize;
-        let newY = this.state.offset + ui.deltaY;
-        if (newY > 0) {
-            newY = 0;
-        } else if (newY < minTop) {
-            newY = minTop;
+        const minOffset = (safeTotalSize * -1) + containerSize;
+        const delta = scrollDirection === SCROLL_DIRECTION_VERTICAL ? ui.deltaY : ui.deltaX;
+        let newOffset = this.state.offset + delta;
+        if (newOffset > 0) {
+            newOffset = 0;
+        } else if (newOffset < minOffset) {
+            newOffset = minOffset;
         }
 
-        if (newY !== this.state.offset) {
-            this.setState({offset: newY}, () => this.broadcastUpdate());
+        if (newOffset !== this.state.offset) {
+            this.setState({offset: newOffset}, () => this.broadcastUpdate());
         }
     }
 
     render(){
-        const { totalItems, itemSize, containerSize, renderItem, scrollDirection } = this.props;
+        const { totalItems, itemSize, containerSize, renderItem, scrollDirection, bufferSize } = this.props;
         const { offset } = this.state;
 
         const totalSize = totalItems * itemSize;
         const safeTotalSize = Math.min(getMaxElementSize(), totalSize);
         const offsetPercentage = totalSize <= containerSize ? 0 : offset / (safeTotalSize - containerSize);
         const currentIndex = Math.floor(totalItems * offsetPercentage * -1);
-        const leftBuffer = Math.min(BUFFER_SIZE, currentIndex);
+        const leftBuffer = Math.min(bufferSize, currentIndex);
         const visibleItems = Math.ceil(containerSize / itemSize);
 
         const indices = [];
@@ -111,7 +106,7 @@ export default class VerticalSlider extends Component {
             indices.push(currentIndex - (leftBuffer - i));
         });
 
-        times(visibleItems + BUFFER_SIZE, (i) => {
+        times(visibleItems + bufferSize, (i) => {
             const index = currentIndex + i;
             if (index < this.props.totalItems) {
                 indices.push(index);

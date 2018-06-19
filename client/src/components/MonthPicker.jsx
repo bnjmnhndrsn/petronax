@@ -20,6 +20,7 @@ export default function MonthPicker({setDate, date}){
     return (
         <div style={{width: '120px'}}>
             <VirtualizedDragManager
+                bufferSize={1}
                 currentIndex={momentDate.month()}
                 itemSize={30}
                 containerSize={30}
