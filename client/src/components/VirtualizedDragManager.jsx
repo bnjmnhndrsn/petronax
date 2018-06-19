@@ -17,6 +17,7 @@ export default class VerticalSlider extends Component {
 
         this.handleDrag = this.handleDrag.bind(this);
         this.broadcastUpdate = debounce(this.broadcastUpdate, 300);
+        this.onWheel = this.onWheel.bind(this);
     }
 
     static getDerivedStateFromProps(props, state){
@@ -73,11 +74,15 @@ export default class VerticalSlider extends Component {
     }
 
     handleDrag(e, ui) {
+        this.moveContainer(ui.deltaX, ui.deltaY);
+    }
+
+    moveContainer(deltaX, deltaY) {
         const { totalItems, itemSize, containerSize, scrollDirection } = this.props;
         const totalSize = totalItems * itemSize;
         const safeTotalSize = Math.min(getMaxElementSize(), totalSize);
         const minOffset = (safeTotalSize * -1) + containerSize;
-        const delta = scrollDirection === SCROLL_DIRECTION_VERTICAL ? ui.deltaY : ui.deltaX;
+        const delta = scrollDirection === SCROLL_DIRECTION_VERTICAL ? deltaY : deltaX;
         let newOffset = this.state.offset + delta;
         if (newOffset > 0) {
             newOffset = 0;
@@ -88,6 +93,18 @@ export default class VerticalSlider extends Component {
         if (newOffset !== this.state.offset) {
             this.setState({offset: newOffset}, () => this.broadcastUpdate());
         }
+    }
+
+    onWheel(e){
+        const { scrollDirection } = this.props;
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && scrollDirection == SCROLL_DIRECTION_HORIZONTAL) {
+            e.preventDefault();
+            this.moveContainer(-e.deltaX, 0);
+        } else if (Math.abs(e.deltaX) < Math.abs(e.deltaY) && scrollDirection == SCROLL_DIRECTION_VERTICAL) {
+            e.preventDefault();
+            this.moveContainer(0, - e.deltaY);
+        }
+
     }
 
     render(){
@@ -130,7 +147,7 @@ export default class VerticalSlider extends Component {
 
 
         return (
-            <div style={{[containerPrimaryDimension]: `${containerSize}px`, overflow: 'hidden', position: 'relative', [containerSecondaryDimension]: '100%'}}>
+            <div style={{[containerPrimaryDimension]: `${containerSize}px`, overflow: 'hidden', position: 'relative', [containerSecondaryDimension]: '100%'}} onWheel={this.onWheel}>
                 <DraggableCore
                     onDrag={this.handleDrag}
                 >
