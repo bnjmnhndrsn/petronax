@@ -114,31 +114,35 @@ export default class VerticalSlider extends Component {
         });
 
         const adjustedOffset = Math.round(offsetPercentage * (safeTotalSize - containerSize));
-        const offsetAdjustment = Math.round(offsetPercentage * (safeTotalSize - totalSize));
-        let containerDimension, dragTransform;
+        const offsetAdjustment = -1 * Math.round(offsetPercentage * (safeTotalSize - totalSize));
+        let containerPrimaryDimension, containerSecondaryDimension, dragTransform, boundary;
         if (scrollDirection === SCROLL_DIRECTION_VERTICAL) {
-             containerDimension = 'height';
+             containerPrimaryDimension = 'height';
+             containerSecondaryDimension = 'width';
              dragTransform = 'translateY';
+             boundary = 'right';
         } else {
-            containerDimension = 'height';
+            containerPrimaryDimension = 'width';
+            containerSecondaryDimension = 'height';
             dragTransform = 'translateX';
+            boundary = 'bottom';
         }
 
 
         return (
-            <div style={{[containerDimension]: `${containerSize}px`, overflow: 'hidden', position: 'relative'}}>
+            <div style={{[containerPrimaryDimension]: `${containerSize}px`, overflow: 'hidden', position: 'relative', [containerSecondaryDimension]: '100%'}}>
                 <DraggableCore
                     onDrag={this.handleDrag}
                 >
-                    <div style={{position: 'absolute', [containerDimension]: `${safeTotalSize}px`, transform: `${dragTransform}(${adjustedOffset}px)`}}>
+                    <div style={{position: 'absolute', [containerPrimaryDimension]: `${safeTotalSize}px`, top: 0, left: 0, [boundary]: 0, transform: `${dragTransform}(${adjustedOffset}px)`}}>
                         {
                             indices.map((index) => {
                                 const itemOffset = (index * itemSize) + offsetAdjustment;
                                 const style = {
                                     top: 0,
                                     left: 0,
-                                    right: 0,
-                                    [containerDimension]: this.props.itemSize,
+                                    [boundary]: 0,
+                                    [containerPrimaryDimension]: this.props.itemSize,
                                     transform: `${dragTransform}(${itemOffset}px)`,
                                     position: 'absolute'
                                 };

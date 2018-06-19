@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 
-import VirtualizedScrollManager from './VirtualizedScrollManager';
+//import VirtualizedScrollManager from './VirtualizedScrollManager';
+import VirtualizedDragManager from './VirtualizedDragManager';
 import { DATE_FORMAT, DATE_MIN, DATE_MAX } from '../constants';
 import CalendarDate from './CalendarDate';
 
@@ -31,14 +32,19 @@ export default class CalendarDates extends Component {
         const currentIndex = moment(this.props.date, DATE_FORMAT).diff(moment(DATE_MIN, DATE_FORMAT), 'days');
 
         return (
-            <VirtualizedScrollManager
-                currentIndex={currentIndex}
-                containerWidth={containerWidth}
-                itemWidth={itemWidth}
-                totalLength={totalPossibleDates}
-                renderItem={this.renderItem}
-                onIndexChange={this.onIndexChange}
-            />
+            <div style={{height: '100%'}}>
+                <VirtualizedDragManager
+                    bufferSize={2}
+                    scrollDirection="horizontal"
+                    currentIndex={currentIndex}
+                    containerSize={containerWidth}
+                    itemSize={itemWidth}
+                    totalItems={totalPossibleDates}
+                    renderItem={this.renderItem}
+                    onIndexChange={this.onIndexChange}
+                />
+            </div>
+
         )
     }
 }
