@@ -83,7 +83,8 @@ export default class VerticalSlider extends Component {
         const safeTotalSize = Math.min(getMaxElementSize(), totalSize);
         const minOffset = (safeTotalSize * -1) + containerSize;
         const delta = scrollDirection === SCROLL_DIRECTION_VERTICAL ? deltaY : deltaX;
-        let newOffset = this.state.offset + delta;
+        const scaledDelta = delta * (safeTotalSize / totalSize);
+        let newOffset = this.state.offset + scaledDelta;
         if (newOffset > 0) {
             newOffset = 0;
         } else if (newOffset < minOffset) {
