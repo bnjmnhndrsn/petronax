@@ -97,10 +97,10 @@ export default class VerticalSlider extends Component {
 
     onWheel(e){
         const { scrollDirection } = this.props;
-        if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && scrollDirection == SCROLL_DIRECTION_HORIZONTAL) {
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && scrollDirection === SCROLL_DIRECTION_HORIZONTAL) {
             e.preventDefault();
             this.moveContainer(-e.deltaX, 0);
-        } else if (Math.abs(e.deltaX) < Math.abs(e.deltaY) && scrollDirection == SCROLL_DIRECTION_VERTICAL) {
+        } else if (Math.abs(e.deltaX) < Math.abs(e.deltaY) && scrollDirection === SCROLL_DIRECTION_VERTICAL) {
             e.preventDefault();
             this.moveContainer(0, - e.deltaY);
         }

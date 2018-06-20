@@ -1,3 +1,7 @@
+.calendar-dates {
+    flex: 1;
+}
+
 .photo-wrapper {
     border-left: 2px solid #1a1a1a;
 }
