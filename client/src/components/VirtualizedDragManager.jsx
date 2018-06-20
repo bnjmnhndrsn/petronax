@@ -148,7 +148,7 @@ export default class VerticalSlider extends Component {
 
 
         return (
-            <div style={{[containerPrimaryDimension]: `${containerSize}px`, overflow: 'hidden', position: 'relative', [containerSecondaryDimension]: '100%'}} onWheel={this.onWheel}>
+            <div style={{[containerPrimaryDimension]: `${containerSize}px`, overflow: 'hidden', position: 'relative', flex: 1}} onWheel={this.onWheel}>
                 <DraggableCore
                     onDrag={this.handleDrag}
                 >
