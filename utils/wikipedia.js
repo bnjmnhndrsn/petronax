@@ -18,7 +18,7 @@ var WikipediaAPI = {
             prop: 'imageinfo',
             iiprop: 'url',
             gsroffset: offset,
-            iiurlwidth: 600
+            iiurlwidth: 1200
         };
 
         return axios.get(BASE_URL, { params: params })
