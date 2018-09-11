@@ -5,7 +5,7 @@ var striptags = require('striptags');
 var BASE_URL = 'https://commons.wikimedia.org/w/api.php';
 
 var WikipediaAPI = {
-    _makeRequest: function(date, limit, offset){
+    _makeRequest: function(date, limit, offset, includeFileUsageCount){
         var gsrsearch = `filetype:bitmap insource:/[dD]ate=\s{0,1}${date}/`;
 
         var params = {
@@ -16,7 +16,7 @@ var WikipediaAPI = {
             gsrsearch: gsrsearch,
             gsrwhat: 'text',
             gsrlimit: limit,
-            prop: 'imageinfo',
+            prop: includeFileUsageCount ? 'imageinfo|fileusage' : 'imageinfo',
             iiprop: 'url|extmetadata',
             gsroffset: offset,
             iiurlwidth: 1200,
@@ -24,18 +24,23 @@ var WikipediaAPI = {
 
         return axios.get(BASE_URL, { params: params })
     },
-    searchByDate: function(date, limit=25, offset=0) {
-        return WikipediaAPI._makeRequest(date, limit, offset)
+    searchByDate: function(date, limit=25, offset=0, includeFileUsageCount=false) {
+        return WikipediaAPI._makeRequest(date, limit, offset, includeFileUsageCount)
         .then(response => {
             if (!response.data.query) {
                 return [];
             } else {
-                return lodash.map(response.data.query.pages, function(page){
+                var parsedItems = lodash.map(response.data.query.pages, function(page){
                     var description = null;
                     var metadata = page.imageinfo[0].extmetadata;
                     if (metadata.ImageDescription && metadata.ImageDescription.value) {
                         description = striptags(metadata.ImageDescription.value);
                     }
+                    var fileUsageCount = null;
+                    if (includeFileUsageCount) {
+                        fileUsageCount = page.fileusage ? page.fileusage.length : 0;
+                    }
+                    
                     return {
                         page_id: page.pageid,
                         title: page.title,
@@ -43,9 +48,12 @@ var WikipediaAPI = {
                         image_url: page.imageinfo[0].url,
                         description_url: page.imageinfo[0].descriptionurl,
                         scaled_url: page.imageinfo[0].thumburl,
-                        description: description
+                        description: description,
+                        file_usage_count: fileUsageCount
                     }
                 });
+                
+                return lodash.reverse(lodash.sortBy(parsedItems, 'file_usage_count'));
             }
         });
     }
